@@ -1,0 +1,379 @@
+/*---------------------------------------------------------------
+             
+             Source File:     Game.Henri.cpp
+             Program name:    Guessing Game (Program 1), Assignment 5
+             Author:          Hassan Aghaei Baradaran (Henri)
+             Compiler:        Bloodshd Dev-C++ 4.9.9.2
+             Purpose:         To create a guessing game!
+
+-----------------------------------------------------------------*/
+
+#include <iostream>  // input output
+#include <time.h>    // for time()
+#include <stdlib.h>   // for rand() and srand()
+#include <math.h>     //  for round()
+#include <iomanip>   // for doubleprecision()
+using namespace std;
+
+int henri1(int);  // To avoid duplication in loops
+
+// ------------------  Class 1 for the Player or Scoreboard ------------
+class Scoreboard
+{
+      private:                              // Data
+              
+               string name;
+               int roundp;
+               int roundw;
+               int stat;
+               bool spc;                      // flag
+               int won;
+               int rnd;
+               int tot;
+               
+               
+      public:                               // Methods
+             
+               Scoreboard()                      // Constructor  
+               {
+               name = " ";                 
+               roundp = 0;
+               roundw = 0;
+               spc = false;
+               stat = 0;
+               won = 0;
+               rnd = 1; 
+               tot = 0;       
+               }
+               
+               Scoreboard(int t, int w)
+               {
+                tot = t;
+                won = w;
+                
+                           
+                           }
+                           
+               int getWon(){return won;}
+               int getRnd(){return rnd;}
+              bool getSpc(){return spc;}
+            
+               
+               void game();                    // To dscribe the game and input name
+               void Round();                   //  To accumulate / update player totals after a round
+               double calc1(){ return (won * 100.0)/rnd;}; // To calculate final percentages
+               double calc2(){return (double)tot/won;};                   // To calculate averages
+               void display();                  // To display the statistical summary
+               void update();
+               void accumulate();
+        
+};
+
+// -------------- Class Scoreboard Functions:
+                  
+void Scoreboard :: game()
+{
+    cout << "Hello! Welcome to my Guessing Game!" << endl;
+    cout << "For each round, You have 10 gusses to guess a number between" << endl; 
+    cout << "1 and 100 inclusive. There are some hints along the way." << endl;
+    cout << "At the end there would be your statistics." << endl;
+    cout << endl << "What's your name?" << endl;
+    
+    getline(cin, name);  
+     
+}
+
+void Scoreboard :: update()
+{
+if (won == 0)
+    stat = 0;
+    }
+
+void Scoreboard :: accumulate()
+{
+won++;
+stat++;
+rnd++;     
+}
+
+void Scoreboard :: Round()
+{
+    
+    cout << "[ Round " << rnd << " ... ]" << endl;    // counting the number of Rounds  
+     
+     
+}
+                
+void Scoreboard :: display()
+{
+    cout << endl << "Hey, " << name << ", you won " << won << " out of " << rnd << " rounds." << endl;
+      if (won >= rnd)
+      {
+        cout << endl << "That's" << " 100 %, don't quit your day job." << endl;      
+      }
+      else
+      {
+        cout << rnd << won;
+        cout << endl << "That's " << calc1() << "%, don't quit your day job." << endl;
+      }
+
+//**********************
+
+
+      if (won == 0)
+      cout << "Shoot! You are unlucky! None of your guesses were correct! Loser!"<< endl;
+      else
+      {
+       cout << fixed << setprecision(1);
+       cout << endl << "For the numbers you guessed correctly, you took an average of " << calc2() << " guesses." << endl;
+      }
+      
+      cout << "Oh "<< spc;
+      if (spc == true)
+      {
+         cout << endl << "You join Kreskin's psychic club for guessing one on the first guess!" << endl; 
+         cout << "Hi";
+      }
+       cout << endl << "Good Bye!";
+}
+
+// ------------------  Class 2 for a Round of the game ------------
+class Roundg
+{
+   private:                                 // Data
+              
+               int no;                     // target number
+               int tmpno;
+               int stat;
+              // int counter;
+              // int min;                     //ranging
+              // int max;
+               //bool spc;
+               bool spc2;
+               
+      public:                               // Methods
+             
+               Roundg()                      // Constructor  
+               {
+               no = (rand()% 100)+ 1;
+               tmpno = 0;                 
+               stat = 0;
+              // counter = 0;
+              // min = 1;
+             //  max = 100;
+               
+               spc2 = true; 
+               
+               
+             //  bool getSpc(){return spc};
+               srand((time(NULL)));        // randomize the number       
+               }
+               
+               void control();                    // To control playing a round
+               void valid();                   //  To validate the guess
+               void check(Scoreboard player);                      // To check guess against target
+               void show();                  // To show results after a round
+               void result();                    // to retur results after a round
+};
+ 
+ // -------------- Class Round Functions:      
+
+void Roundg :: control()
+{
+     
+     
+     
+     
+}
+
+void Roundg :: valid()
+{
+    cout << "You have 10 guesses" << endl;
+    cout << no;
+    cout << "Guess a number between 1 and 100: ";
+    cin  >> tmpno;                                    // User's entry    
+     
+     
+     
+}
+
+void Roundg :: check(Scoreboard player)
+{
+     
+
+    
+    int  counter = 0, min = 1, max = 100;    // max min to distinguish the range of gussing
+ 
+ 
+    tmpno = 0;
+    
+    no = (rand()% 100)+ 1;  // make a random numbers
+  
+   player.Round();
+     valid();
+     player.update();
+     
+  do                  //  do-while loop for the first Round!
+  {
+ 
+ 
+  if (tmpno == no)                           // Win!
+  {
+            if (spc2 == false)
+            {
+             spc2 = true;
+            }
+            else
+            {
+            spc2 = false;
+            }
+            player.accumulate();
+            cout << player.getWon();
+           /*
+            
+            if ( min == 1 && max == 100)       // to ditinguish whether we guess for the first time after each win
+            {
+            player.set3(true);
+            }*/
+                                  
+            cout << "You got it!" << endl;
+            
+            counter = 11;       //  in order to exit the do-while loop 
+  
+  }
+  
+  else if(1 <= tmpno && tmpno < no)
+  {
+       counter++;
+       stat++;
+       cout << stat ;
+       
+       if (counter == 10)
+       {
+         cout << "Sorry, you lose the game... the number was " << no << endl;
+         counter++;
+       }
+       else
+       {
+         min  =  tmpno;
+         cout << "Too low" << endl;
+         henri1(counter);
+         cout << "Guess a number between " << tmpno + 1 << " and " << max << ":";
+         cin  >> tmpno;
+         while(tmpno <= min || tmpno > max)         // To find the error in range!
+         {
+           cout << "Hey, Pay attention! ...  You are out of range! I won't count that one." << endl;
+           cout << "Guess a number between " << min+1 << " and " << max << ":";
+           cin  >> tmpno;
+         }
+       }
+  }
+  
+  else if(tmpno > no && tmpno <= 100)
+  {
+        counter++;
+        stat++;
+        cout << stat;
+  
+        if (counter == 10)
+        {
+          cout << "Sorry, you lose the game... the number was " << no << endl;
+          counter++;
+        }
+        else
+        {
+          max  =  tmpno;
+          cout << "Too high" << endl;             // Too high!
+          henri1(counter);
+          cout << "Guess a number between " << min << " and " << tmpno - 1 << ":";
+          cin  >> tmpno;
+
+          while(tmpno < min || tmpno >= max)
+          {
+            cout << "Hey, Pay attention! ...  You are out of range! I won't count that one." << endl;
+            cout << "Guess a number between " << min << " and " << max - 1 << ":";
+            cin  >> tmpno;
+          }
+        }
+   }
+   
+   else
+   {
+     cout << "Hey, Pay attention! ...  You are out of range! I won't count that one." << endl;
+     cout << "Guess a number between " << min << " and " << max << ":";
+     cin  >> tmpno;
+   }
+  }while (counter <= 10 );
+ 
+ 
+  
+     
+     
+}
+
+void Roundg :: show()
+{
+     
+     
+     
+     
+}
+
+void Roundg :: result()
+{
+     
+     
+     
+     
+}
+
+int main()
+{
+    char ch = 'Y';
+    Scoreboard player;
+    
+   
+    
+    player.game();
+    
+    
+    Roundg flow;
+    
+      while (ch == 'Y')        // while loop for continuing up to the Round number <rnd>
+{
+    flow.check(player);    
+        cout << "Do you want to play again? (Y/N)";       // Ask the user to try this game again after 1 complete round
+     cin  >> ch;
+     ch   = toupper(ch);
+}  
+    
+    player.display();
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    system("pause");
+    return 0;
+    
+    
+}
+int henri1(int cm)                // function for the sake of brevity 
+{   
+    cout << "You have " << 10 - cm << " guesses left" << endl; 
+    return cm;
+}
